@@ -1,10 +1,9 @@
 const getDB = require("../../db").getDB;
 const db    = getDB();
 
-const getData = (id) =>  {
-    
+const getSeanceByID = (id) =>  {
 	return new Promise((resolve, reject) => {
-		db.doc(`exercices/${id}`).get().then(
+        db.doc(`exercices/${id}`).get().then(
 		    seance => {
                 if(seance.data()) {
                     return resolve(seance.data());
@@ -15,6 +14,24 @@ const getData = (id) =>  {
         ).catch(
             err => reject(err)
         );
+	});
+}
+
+const getSeanceByUser = (idUser) =>  {
+	return new Promise((resolve, reject) => {
+        db.collection(`exercices`)
+          .where('idUser', '==', idUser)
+          .get()
+          .then(seances => {
+            let validSeances = [];
+            seances.forEach(seance => {
+                if(seance.data()) {
+                    validSeances.push(seance.data());
+                }
+            });
+            return resolve(validSeances);
+          })
+          .catch( err => reject(err) );
 	});
 }
 
@@ -39,4 +56,4 @@ const setMachineScore = (idSeance, score) => {
 	});
 }
 
-module.exports = { getData, setMachineScore };
+module.exports = { getSeanceByID, setMachineScore, getSeanceByUser };

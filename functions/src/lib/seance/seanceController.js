@@ -11,13 +11,28 @@ const getSeance = (req, res) => {
     const requiredSeanceId = req.params.seance
     
     if(requiredSeanceId) {
-		seanceService.getData(requiredSeanceId).then( 
+		seanceService.getSeanceByID(requiredSeanceId).then( 
 			seance => res.status(200).json({ success: true, data: seance })
 		).catch(
 			err => res.status(404).json({ success: false, data: err })
 		);
 	} else {
 		res.statut(404).json({ success: false, data: 'Veuillez renseigner un ID de séance.' })
+	}
+
+}
+
+const getSeanceByUser = (req, res) => {
+    const requiredUserId = req.params.user
+    
+    if(requiredUserId) {
+		seanceService.getSeanceByUser(requiredUserId).then( 
+			seances => res.status(200).json({ success: true, data: seances })
+		).catch(
+			err => res.status(404).json({ success: false, data: err })
+		);
+	} else {
+		res.statut(404).json({ success: false, data: 'Veuillez renseigner un ID d\' utilisateur.' })
 	}
 
 }
@@ -37,4 +52,4 @@ const setSeance = (req, res) => {
 	}
 }
 
-module.exports = { getAllSeances, getSeance, setSeance };
+module.exports = { getAllSeances, getSeance, setSeance, getSeanceByUser };
