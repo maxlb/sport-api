@@ -1,21 +1,23 @@
 const getDB = require("../../db").getDB;
+const dataService = require('../shared/dataService')
 const db    = getDB();
 
 const getData = (id) =>  {
-    
 	return new Promise((resolve, reject) => {
-		db.doc(`machines/${id}`).get().then(
-		    machine => {
-                if(machine.data()) {
-                    return resolve(machine.data());
-                } else {
-                    return reject(new Error("La machine n'existe pas..."));
-                }
-            }
-        ).catch(
-            err => reject(err)
-        );
+        db.doc(`machines/${id}`)
+          .get()
+          .then( machine => resolve(dataService.getValidValue(machine)) )
+          .catch( err => reject(err) );
 	});
 }
 
-module.exports = { getData };
+const getAllMachines = () =>  {
+	return new Promise((resolve, reject) => {
+        db.collection(`machines`)
+          .get()
+          .then( machines => resolve(dataService.getValidValues(machines)) )
+          .catch( err => reject(err) );
+	});
+}
+
+module.exports = { getData, getAllMachines };
