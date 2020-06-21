@@ -21,19 +21,22 @@ const getSeanceByUser = (idUser) =>  {
 	});
 }
 
-const setMachineScore = (idSeance, score) => {
+const updateSeance = (idSeance, seance) => {
 	return new Promise((resolve, reject) => {
-		getSeanceByID(idSeance).then(
-            seance => {
-                const indexMachine = seance.machines.findIndex(elem => elem.idMachine === score.idMachine)
-                indexMachine > 0 ? seance.machines[indexMachine] = score : seance.machines.push(score)
-                db.doc(`exercices/${idSeance}`)
-                  .update(seance)
-				  .then(() => resolve(seance))
-				  .catch(err => reject(err))
-			})
-			.catch(err => reject(err))
+    db.doc(`exercices/${idSeance}`)
+      .update(seance)
+      .then(() => resolve(seance))
+      .catch(err => reject(err));
 	});
 }
 
-module.exports = { getSeanceByID, setMachineScore, getSeanceByUser };
+const setScore = (idSeance, score) => {
+	return new Promise((resolve, reject) => {
+    getSeanceByID(idSeance)
+      .then( seance => resolve( dataService.putScoreInSeance(seance, score) ) )
+      .catch(err => reject(err))
+	});
+}
+
+
+module.exports = { getSeanceByID, setScore, getSeanceByUser, updateSeance };

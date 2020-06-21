@@ -27,7 +27,8 @@ const setSeance = (req, res) => {
 	const idSeance  = req.body.id;
 	const score  = req.body.score;
   	if (idSeance && score) {
-		seanceService.setMachineScore(idSeance, score)
+		seanceService.setScore(idSeance, score)
+			.then( score => seanceService.updateSeance(idSeance, score) )
 			.then( seance => resp.manageSuccessResponse(res, seance) )
 			.catch( err => resp.manageFailureResponse(res, err) );
 	} else {

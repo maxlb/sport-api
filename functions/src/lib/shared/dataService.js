@@ -15,4 +15,10 @@ const getValidValue = (value) => {
     throw Error('Element introuvable');
 }
 
-module.exports = { getValidValues, getValidValue }
+const putScoreInSeance = (seance, score) => {
+    const indexMachine = seance.machines.findIndex(elem => elem.idMachine === score.idMachine);
+    indexMachine > 0 ? seance.machines[indexMachine] = score : seance.machines.push(score);
+    return seance
+  }
+
+module.exports = { getValidValues, getValidValue, putScoreInSeance }
