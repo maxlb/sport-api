@@ -38,5 +38,4 @@ const setScore = (idSeance, score) => {
 	});
 }
 
-
 module.exports = { getSeanceByID, setScore, getSeanceByUser, updateSeance };
