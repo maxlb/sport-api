@@ -1,17 +1,17 @@
-const getData = require('./seanceService').getData;
+const seanceService = require('./seanceService');
 
-function getAllSeances(_req, res) {
+const getAllSeances = (_req, res) => {
     return res.json({
         success: true,
         data: [{id:1, nom:"seance 1"},{id:2, nom:"seance 2"}]
     });
 }
 
-function getSeance(req, res) {
+const getSeance = (req, res) => {
     const requiredSeanceId = req.params.seance
     
     if(requiredSeanceId) {
-		getData(requiredSeanceId).then( 
+		seanceService.getData(requiredSeanceId).then( 
 			seance => res.status(200).json({ success: true, data: seance })
 		).catch(
 			err => res.status(404).json({ success: false, data: err })
@@ -22,4 +22,19 @@ function getSeance(req, res) {
 
 }
 
-module.exports = { getAllSeances, getSeance };
+const setSeance = (req, res) => {
+	const idSeance  = req.body.id;
+	const score  = req.body.score;
+  
+  	if (idSeance && score) {
+		seanceService.setMachineScore(idSeance, score).then( 
+			seance => res.status(200).json({ success: true, data: seance })
+		).catch(
+			err => res.status(404).json({ success: false, data: err })
+		);
+	} else {
+		res.statut(404).json({ success: false, data: 'Paramètres incomplets.' })
+	}
+}
+
+module.exports = { getAllSeances, getSeance, setSeance };
