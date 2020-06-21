@@ -2,6 +2,7 @@ const express    = require('express');
 const bodyParser = require('body-parser');
 const cors       = require('cors');
 const initDB     = require("./db").initDB;
+const resp 		 = require('./lib/shared/httpResponseService');
 const app        = express(); 
 
 initDB( err => {
@@ -11,9 +12,9 @@ initDB( err => {
            .use(bodyParser.urlencoded({ extended: false }))
            .use('/machines', require('./lib/machine/machineRoute'))
            .use('/seances', require('./lib/seance/seanceRoute'))
-           .get('*', (_, res) => res.status(404).json({success: false, data: 'Cible introuvable'}));
+           .get('*', (_, res) => resp.manageFailureResponse(res, Error('Cible introuvable')) );
     } else {
-        throw new Error("Erreur lors de l'initialisation de la base de données : " + err)
+        throw new Error("Erreur lors de l'initialisation de la base de données : " + err.message );
     }
 });
 
