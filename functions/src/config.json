@@ -1,0 +1,11 @@
+{
+    "firebase": {
+        "apiKey": "AIzaSyDcfmDpk2YcHENwbhc0YWLXmzzyWtZPJpQ",
+        "authDomain": "mlb-sport-api.firebaseapp.com",
+        "databaseURL": "https://mlb-sport-api.firebaseio.com",
+        "projectId": "mlb-sport-api",
+        "storageBucket": "mlb-sport-api.appspot.com",
+        "messagingSenderId": "501500980923",
+        "appId": "1:501500980923:web:7781bfcbc718d32298c39e"
+  }
+}
